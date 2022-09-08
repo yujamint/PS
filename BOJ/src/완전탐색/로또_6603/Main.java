@@ -7,10 +7,10 @@ import java.util.StringTokenizer;
 
 public class Main {
     static int n;
-    static int[] arr, selected, ch;
+    static int[] arr, selected;
 
 
-    public static void DFS(int count) {
+    public static void DFS(int count, int start) {
         if (count == 6) {
             for (int i = 0; i < 6; i++) {
                 System.out.print(selected[i] + " ");
@@ -18,12 +18,9 @@ public class Main {
             System.out.println("");
         }
         else {
-            for (int i = 0; i < n; i++) {
-                if (ch[i] == 0) {
-                    ch[i] = 1;
-                    selected[count] = arr[i];
-                    DFS(count + 1);
-                }
+            for (int i = start; i < n; i++) {
+                selected[count] = arr[i];
+                DFS(count + 1, i + 1);
             }
         }
     }
@@ -39,13 +36,12 @@ public class Main {
             n = Integer.parseInt(st.nextToken());
             arr = new int[n];
             selected = new int[6];
-            ch = new int[n];
 
             for (int i = 0; i < n; i++) {
                 arr[i] = Integer.parseInt(st.nextToken());
             }
 
-            DFS(0);
+            DFS(0,0);
 
             System.out.println("");
         }
