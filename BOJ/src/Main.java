@@ -1,15 +1,24 @@
-import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int[] dp = new int[2001];
-        dp[1] = 1;
-        dp[2] = 2;
-        for(int i=3; i<=n; i++){
-            dp[i] = (dp[i-2] + dp[i-1]) % 1234567;
+    public static int d(int n) {
+        int temp = n;
+        String str = Integer.toString(n);
+        for (char x : str.toCharArray()) {
+            temp += x - '0';
         }
-        System.out.println(dp[n]);
+        return temp;
+    }
+
+    public static void main(String[] args){
+        int[] dn = new int[10001];
+
+        for (int i = 1; i <= 10000; i++) {
+            if (d(i) <= 10000) dn[d(i)] = 1;
+        }
+
+        for (int i = 1; i <= 10000; i++) {
+            if(dn[i] == 0) System.out.println(i);
+        }
     }
 }
