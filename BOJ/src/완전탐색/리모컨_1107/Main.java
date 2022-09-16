@@ -9,15 +9,36 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        int n = Integer.parseInt(br.readLine());
+        String nStr = br.readLine();
+        int n = Integer.parseInt(nStr);
         int m = Integer.parseInt(br.readLine());
-        int[] arr = new int[m];
 
-        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-        for (int i = 0; i < m; i++) {
-            arr[i] = Integer.parseInt(st.nextToken());
+        int answer = Math.abs(n-100);
+
+        boolean[] broken = new boolean[10];
+        if (m != 0) {
+            StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+            for (int i = 0; i < m; i++) {
+                broken[Integer.parseInt(st.nextToken())] = true;
+            }
         }
 
+        for (int i = 0; i <= 999999; i++) {
+            String num = String.valueOf(i);
+            int len = num.length();
 
+            boolean isBreak = false;
+            for (int j = 0; j < len; j++) {
+                if (broken[num.charAt(j) - '0']) {
+                    isBreak = true;
+                    break;
+                }
+            }
+
+            if (!isBreak) {
+                answer = Math.min(answer, Math.abs(n-i) + len);
+            }
+        }
+        System.out.println(answer);
     }
 }
