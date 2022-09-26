@@ -1,24 +1,19 @@
+// 배달해야 되는 가장 먼 곳(del), 수거해야 되는 가장 먼 곳 체크(back)
+// 0 되면 갱신
+// del까지 가고, back까지 가고, home으로
+
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Main {
-    public static int d(int n) {
-        int temp = n;
-        String str = Integer.toString(n);
-        for (char x : str.toCharArray()) {
-            temp += x - '0';
-        }
-        return temp;
-    }
+    public static void main(String[] args) {
+        ArrayList<Integer> list = new ArrayList<Integer>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
 
-    public static void main(String[] args){
-        int[] dn = new int[10001];
+        list.remove(Integer.valueOf(3));
+        list.remove(Integer.valueOf(1));
 
-        for (int i = 1; i <= 10000; i++) {
-            if (d(i) <= 10000) dn[d(i)] = 1;
-        }
+        System.out.println(list.get(0));
 
-        for (int i = 1; i <= 10000; i++) {
-            if(dn[i] == 0) System.out.println(i);
-        }
+
     }
 }
