@@ -62,6 +62,9 @@ public class Main {
             q.offer(a);
 
             while (!q.isEmpty()) {
+
+
+
                 Rectangle cur = q.poll();
                 for (int j = 0; j <= n; j++) {
                     Rectangle b = rectangles[j];
