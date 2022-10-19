@@ -16,13 +16,11 @@ public class Main {
             num = num.multiply(new BigInteger(Integer.toString(i)));
         }
 
+        String result = num.toString();
         int cnt = 0;
-        while (true) {
-            BigInteger temp = num.remainder(new BigInteger("10"));
-            if (temp.equals(new BigInteger("0"))) cnt++;
+        for (int i = result.length() - 1; i >= 0; i--) {
+            if (result.charAt(i) == '0') cnt++;
             else break;
-
-            num = num.divide(new BigInteger("10"));
         }
 
         System.out.println(cnt);
