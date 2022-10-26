@@ -1,4 +1,4 @@
-package 덱.덱_10866;
+package 기타자료구조.덱_10866;
 
 import java.io.BufferedReader;
 import java.io.IOException;
