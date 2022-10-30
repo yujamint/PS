@@ -11,12 +11,10 @@ public class Main {
     static int[][] map;
 
     public static void DFS(int start) {
-        if (ch[start]) return;
-
         ch[start] = true;
 
         for (int i = 1; i <= n; i++) {
-            if (map[start][i] == 0 && ch[i]) continue;
+            if (map[start][i] == 0 || ch[i]) continue;
             DFS(i);
         }
     }
@@ -44,9 +42,6 @@ public class Main {
             if (!ch[i]) {
                 DFS(i);
                 cnt++;
-                for (int j = 1; j <= n; j++) {
-                    System.out.print(ch[j] + " ");
-                }
             }
         }
 
