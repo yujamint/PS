@@ -3,32 +3,23 @@ package 그래프.텀프로젝트_9466;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.StringTokenizer;
 
 public class Main {
     static int n, teamCnt;
-    static boolean[] ch;
+    static boolean[] visited, finished;
     static int[] teamSelection;
-    static List<Integer> list = new ArrayList<>();
 
-    public static void DFS(int x, int team, int memberCnt) {
-        if (list.contains(team) || ch[team]) {
-            return;
+    public static void DFS(int x) {
+        if (finished[x]) return;
+        if (visited[x]) {
+            finished[x] = true;
+            teamCnt++;
         }
-
-        list.add(team);
-
-        if (x == team) {
-            teamCnt += memberCnt;
-            for (int teamMember : list) {
-                ch[teamMember] = true;
-            }
-            return;
-        }
-
-        DFS(x, teamSelection[team], memberCnt + 1);
+        visited[x] = true;
+        DFS(teamSelection[x]);
+        visited[x] = false;
+        finished[x] = true;
     }
 
     public static void main(String[] args) throws IOException {
@@ -43,21 +34,22 @@ public class Main {
 
             teamCnt = 0;
             teamSelection = new int[n + 1];
-            ch = new boolean[n + 1];
+            visited = new boolean[n + 1];
+            finished = new boolean[n + 1];
 
             st = new StringTokenizer(br.readLine(), " ");
             for (int i = 1; i <= n; i++) {
                 teamSelection[i] = Integer.parseInt(st.nextToken());
+                if (i == teamSelection[i]) {
+                    teamCnt++;
+                    finished[i] = true;
+                }
             }
 
             for (int i = 1; i <= n; i++) {
-                if (!ch[i]) {
-                    list = new ArrayList<>();
-                    DFS(i, teamSelection[i], 1);
-                    ch[i] = true;
-                }
+                DFS(i);
             }
-            sb.append(n-teamCnt).append("\n");
+            sb.append(n - teamCnt).append("\n");
         }
         System.out.print(sb);
     }
