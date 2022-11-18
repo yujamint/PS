@@ -20,14 +20,12 @@ public class Main {
                 sum += tree[i] - midValue;
             }
 
-            if (sum == m) {
-                return midValue;
-            }
             if (sum > m) {
                 front = midValue + 1;
-                continue;
             }
-            rear = midValue - 1;
+            else {
+                rear = midValue - 1;
+            }
         }
         return front - 1;
     }
