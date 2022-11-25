@@ -32,11 +32,28 @@ public class Main {
         double cDX = (cX2 - cX1) / interval;
         double cDY = (cY2 - cY1) / interval;
 
-        double min = calculateDistance(aX1, aY1, cX1, cY1);
-        for (int i = 1; i <= interval; i++) {
-            double temp = calculateDistance(aX1 + aDX * i, aY1 + aDY * i, cX1 + cDX * i, cY1 + cDY * i);
+        int lo = 0;
+        int hi = interval;
 
-            min = Math.min(temp, min);
+        while (hi - lo >= 3) {
+            int p = (2 * lo + hi) / 3;
+            int q = (lo + 2 * hi) / 3;
+
+            double mid1 = calculateDistance(aX1 + aDX * p,aY1 + aDY * p, cX1 + cDX * p, cY1 + cDY * p);
+            double mid2 = calculateDistance(aX1 + aDX * q, aY1 + aDY * q, cX1 + cDX * q, cY1 + cDY * q);
+
+            if (mid1 > mid2) {
+                lo = p + 1;
+            } else {
+                hi = q - 1;
+            }
+        }
+
+        double min = calculateDistance(aX1 + aDX * hi,aY1 + aDY * hi, cX1 + cDX * hi, cY1 + cDY * hi);
+        for (int i = lo; i < hi; i++) {
+            double temp = calculateDistance(aX1 + aDX * i,aY1 + aDY * i, cX1 + cDX * i, cY1 + cDY * i);
+
+            min = Math.min(min, temp);
         }
 
         System.out.printf("%.10f", min);
