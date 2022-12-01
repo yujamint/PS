@@ -8,17 +8,17 @@ public class Main {
     static int n;
     static StringBuilder sb;
 
-    public static void DFS(int N, int start, int mid, int to) {
+    public static void hanoi(int N, int start, int mid, int to) {
         if (N == 1) {
             sb.append(start).append(' ').append(to).append('\n');
             return;
         }
 
-        DFS(N - 1, start, to, mid);
+        hanoi(N - 1, start, to, mid);
 
         sb.append(start).append(' ').append(to).append('\n');
 
-        DFS(N - 1, mid, start, to);
+        hanoi(N - 1, mid, start, to);
     }
 
     public static void main(String[] args) throws IOException {
@@ -28,7 +28,7 @@ public class Main {
         n = Integer.parseInt(br.readLine());
 
         sb.append((int) Math.pow(2, n) - 1).append('\n');
-        DFS(n, 1, 2, 3);
+        hanoi(n, 1, 2, 3);
 
         System.out.println(sb);
     }
