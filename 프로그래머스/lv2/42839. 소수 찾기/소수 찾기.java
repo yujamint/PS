@@ -1,64 +1,43 @@
+import java.util.HashSet;
+import java.util.Set;
+
 class Solution {
-    private static final int MAX = 9_999_999;
-    static int n, cnt = 0;
-    static int[] arr;
-    static boolean[] numCh;
-    static boolean[] ch = new boolean[MAX + 1];
-    static boolean[] prime = new boolean[MAX + 1];
-
     public int solution(String numbers) {
-        n = numbers.length();
-        arr = new int[n];
-        numCh = new boolean[n];
+        Set<Integer> set = new HashSet<>();
+        
+        DFS("", numbers, set);
 
-        for (int i = 0; i < n; i++) {
-            arr[i] = numbers.charAt(i) - '0';
+        int count = 0;
+        while (set.iterator().hasNext()) {
+            int num = set.iterator().next();
+            set.remove(num);
+            if (num == 2) {
+                count++;
+            }
+            if (num % 2 != 0 && isPrime(num)) {
+                count++;
+            }
         }
-
-        makePrime();
-
-        DFS(0, "");
-
-        return cnt;
+        return count;
     }
 
-    public void DFS(int L, String numStr) {
-        if (L == n) {
-            if (!numStr.isEmpty()) {
-                int num = Integer.parseInt(numStr);
-
-                if (!ch[num] && !prime[num]) {
-                    System.out.println(num);
-                    ch[num] = true;
-                    cnt++;
-                }
-            }
+    public boolean isPrime(int number) {
+        if (number == 0 || number == 1) {
+            return false;
         }
-        else {
-            for (int i = 0; i < n; i++) {
-                if (numCh[i]) continue;
-                
-                numCh[i] = true;
-                DFS(L + 1, numStr + arr[i]);
-                DFS(L + 1, numStr);
-                numCh[i] = false;
-            }
+        for (int i = 3; i <= Math.sqrt(number); i += 2) {
+            if (number % i == 0) return false;
         }
+        return true;
     }
 
-    public void makePrime() {
-        prime[0] = true;
-        prime[1] = true;
-
-        for (int i = 2; i <= Math.sqrt(MAX); i++) {
-
-            if (prime[i]) {
-                continue;
-            }
-
-            for (int j = i * i; j < MAX; j += i) {
-                prime[j] = true;
-            }
+    public void DFS(String prefix, String str, Set<Integer> set) {
+        int len = str.length();
+        if (!prefix.equals("")) {
+            set.add(Integer.parseInt(prefix));
+        }
+        for (int i = 0; i < len; i++) {
+            DFS(prefix + str.charAt(i), str.substring(0, i) + str.substring(i + 1, len), set);
         }
     }
 }
