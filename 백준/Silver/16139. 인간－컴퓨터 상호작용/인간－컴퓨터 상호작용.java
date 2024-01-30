@@ -8,11 +8,12 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String str = br.readLine();
-        sum = new int[str.length() + 1][26];
+        sum = new int[26][str.length() + 1];
         for (int i = 1; i <= str.length(); i++) {
-            for (int j = i; j <= str.length(); j++) {
-                sum[j][str.charAt(i - 1) - 'a']++;
+            for (int j = 0; j < 26; j++) {
+                sum[j][i] = sum[j][i - 1];
             }
+            sum[str.charAt(i - 1) - 'a'][i]++;
         }
         int n = Integer.parseInt(br.readLine());
         StringTokenizer st;
@@ -22,8 +23,10 @@ public class Main {
             char ch = st.nextToken().charAt(0);
             int from = Integer.parseInt(st.nextToken());
             int to = Integer.parseInt(st.nextToken());
-            sb.append(sum[to + 1][ch - 'a'] - sum[from][ch - 'a']).append("\n");
+            sb.append(sum[ch - 'a'][to + 1] - sum[ch - 'a'][from]).append("\n");
         }
         System.out.println(sb);
+
+        br.close();
     }
 }
