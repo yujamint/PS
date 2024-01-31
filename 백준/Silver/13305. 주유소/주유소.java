@@ -18,14 +18,14 @@ public class Main {
             price[i] = Integer.parseInt(st.nextToken());
         }
 
-        int sum = 0;
+        long sum = 0;
         int i = -1;
         int minPrice = Integer.MAX_VALUE;
         while (++i < n - 1) {
             if (minPrice > price[i]) {
                 minPrice = price[i];
             }
-            sum += minPrice * dist[i];
+            sum += (long) minPrice * dist[i];
         }
 
         System.out.println(sum);
