@@ -86,6 +86,7 @@ public class Main {
                 cur = queue.poll();
             } while (!queue.isEmpty() && visited[cur]);
             if (visited[cur]) break;
+            visited[cur] = true;
 
             for (Edge edge : graph.get(cur)) {
                 if (dist[edge.end] > dist[cur] + edge.weight) {
