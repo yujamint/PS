@@ -6,14 +6,16 @@ import java.util.StringTokenizer;
 
 public class Main {
 
-    private static final int INF = 400 * 399 * 10_000;
+//    private static final int INF = 400 * 399 * 10_000;
+    static final int INF = 987654321;
+
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         int v = Integer.parseInt(st.nextToken());
         int e = Integer.parseInt(st.nextToken());
-        long[][] dist = new long[v][v];
+        int[][] dist = new int[v][v];
         for (int i = 0; i < v; i++) {
             Arrays.fill(dist[i], INF);
             dist[i][i] = 0;
@@ -33,11 +35,11 @@ public class Main {
                 }
             }
         }
-        long min = INF;
+        int min = INF;
         for (int i = 0; i < v; i++) {
             for (int j = 0; j < v; j++) {
                 if (i == j) continue;
-                long cycle = dist[i][j] + dist[j][i];
+                int cycle = dist[i][j] + dist[j][i];
                 min = Math.min(min, cycle);
             }
         }
