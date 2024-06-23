@@ -10,7 +10,7 @@ import java.util.StringTokenizer;
 public class Main {
 
     static int[] indegree;
-    static boolean[] visited;
+    static int[] result;
     static List<List<Integer>> graph = new ArrayList<>();
     static Queue<Integer> queue = new LinkedList<>();
 
@@ -20,7 +20,7 @@ public class Main {
         int n = Integer.parseInt(st.nextToken());
         int m = Integer.parseInt(st.nextToken());
         indegree = new int[n + 1];
-        visited = new boolean[n + 1];
+        result = new int[n + 1];
 
         for (int i = 0; i <= n; i++) {
             graph.add(new ArrayList<>());
@@ -38,39 +38,27 @@ public class Main {
         }
 
         for (int i = 1; i <= n; i++) {
-            if (indegree[i] == 0) {
-                queue.offer(i);
-                visited[i] = true;
-            }
+            if (indegree[i] == 0) queue.offer(i);
         }
 
-        int cnt = 0;
-        StringBuilder sb = new StringBuilder();
-        while (!queue.isEmpty()) {
+        for (int i = 1; i <= n; i++) {
+            if (queue.isEmpty()) {
+                System.out.println(0);
+                return;
+            }
+
             int cur = queue.poll();
+            result[i] = cur;
             for (int outdegree : graph.get(cur)) {
-                indegree[outdegree]--;
-            }
-            graph.get(cur).clear();
-
-            visited[cur] = true;
-
-            for (int i = 1; i <= n; i++) {
-                if (indegree[i] == 0 && !visited[i]) {
-                    queue.offer(i);
-                    visited[i] = true;
-                }
+                if (--indegree[outdegree] == 0) queue.offer(outdegree);
             }
 
-            cnt++;
-            sb.append(cur).append('\n');
         }
-
-        if (cnt != n) {
-            System.out.println(0);
-        } else {
-            System.out.println(sb);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 1; i <= n; i++) {
+            sb.append(result[i]).append('\n');
         }
+        System.out.println(sb);
     }
 
 }
