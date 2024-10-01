@@ -17,21 +17,17 @@ public class Main {
     }
 
     private static long countOne(long N) {
-        if (N == 0 || N == 1) {
-            return N;
+        long ans = N & 1;
+        int digit = (int) (Math.log(N) / Math.log(2)); // ln(N) / ln(2) = log2(N)
+        for (int i = digit; i > 0; i--) {
+            if ((N & (1L << i)) == 0) continue;
+            long diff = N - (1L << i);
+            ans += dp[i - 1] + diff + 1;
+            N -= (1L << i);
         }
-
-        int digit = 0;
-        long num = 1;
-        while (num * 2 <= N) {
-            num *= 2;
-            digit++;
-        }
-
-        long diff = N - num + 1;
-        return dp[digit - 1] + diff + countOne(N - num);
+        return ans;
     }
-    
+
     private static void setDp() {
         dp[0] = 1L;
         for (int i = 1; i < 55; i++) {
