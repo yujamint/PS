@@ -3,17 +3,19 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-class Edge implements Comparable<Edge> {
-    int to;
+class Node implements Comparable<Node> {
+    int x;
+    int y;
     int weight;
 
-    public Edge(int to, int weight) {
-        this.to = to;
+    public Node(int x, int y, int weight) {
+        this.x = x;
+        this.y = y;
         this.weight = weight;
     }
 
     @Override
-    public int compareTo(Edge o) {
+    public int compareTo(Node o) {
         return this.weight - o.weight;
     }
 }
@@ -26,7 +28,7 @@ public class Main {
     static int[] dx = {0, 1, 0, -1};
     static int[] dy = {1, 0, -1, 0};
     static boolean[] visited;
-    static List<List<Edge>> graph;
+    static int[][] map;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -35,55 +37,50 @@ public class Main {
         int t = 1;
         while ((n = Integer.parseInt(br.readLine())) != 0) {
             visited = new boolean[n * n];
-            graph = new ArrayList<>();
-            for (int i = 0; i < n * n; i++) {
-                graph.add(new ArrayList<>());
-            }
-            int startWeight = 0;
+            map = new int[n][n];
             for (int i = 0; i < n; i++) {
                 st = new StringTokenizer(br.readLine());
                 for (int j = 0; j < n; j++) {
-                    int v = i * n + j;
-                    int w = Integer.parseInt(st.nextToken());
-                    if (i == 0 && j == 0) startWeight = w;
-                    for (int k = 0; k < 4; k++) {
-                        int x = i + dx[k];
-                        int y = j + dy[k];
-                        if (x >= n || x < 0 || y >= n || y < 0) continue;
-                        int nv = x * n + y;
-                        graph.get(nv).add(new Edge(v, w));
-                    }
+                    map[i][j] = Integer.parseInt(st.nextToken());
                 }
             }
-            int[] dist = dijkstra();
-            sb.append("Problem ").append(t++).append(": ").append(dist[n * n - 1] + startWeight).append('\n');
+            int result = dijkstra();
+            sb.append("Problem ").append(t++).append(": ").append(result).append('\n');
         }
         System.out.println(sb);
     }
 
-    private static int[] dijkstra() {
-        int[] dist = new int[n * n];
-        for (int i = 0; i < n * n; i++) {
-            if (i != 0) dist[i] = INF;
+    private static int dijkstra() {
+        int[][] dist = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i != 0 || j != 0) dist[i][j] = INF;
+            }
         }
-        Queue<Edge> queue = new PriorityQueue<>();
-        queue.offer(new Edge(0, 0));
-        while (!queue.isEmpty()) {
-            int cur;
-            do {
-                cur = queue.poll().to;
-            } while (!queue.isEmpty() && visited[cur]);
-            if (visited[cur]) break;
-            visited[cur] = true;
+        dist[0][0] = map[0][0];
 
-            for (Edge edge : graph.get(cur)) {
-                if (dist[edge.to] > dist[cur] + edge.weight) {
-                    dist[edge.to] = dist[cur] + edge.weight;
-                    queue.offer(new Edge(edge.to, dist[edge.to]));
+        Queue<Node> queue = new PriorityQueue<>();
+        queue.offer(new Node(0, 0, map[0][0]));
+        while (!queue.isEmpty()) {
+            Node cur = queue.poll();
+            int x = cur.x, y = cur.y;
+
+            if (x == n - 1 && y == n - 1) {
+                return dist[x][y];
+            }
+
+            for (int i = 0; i < 4; i++) {
+                int nx = x + dx[i];
+                int ny = y + dy[i];
+                if (nx >= n || ny >= n || nx < 0 || ny < 0) continue;
+
+                if (dist[nx][ny] > dist[x][y] + map[nx][ny]) {
+                    dist[nx][ny] = dist[x][y] + map[nx][ny];
+                    queue.offer(new Node(nx, ny, dist[nx][ny]));
                 }
             }
         }
-        return dist;
+        return -1;
     }
 }
 
