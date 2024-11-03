@@ -1,6 +1,6 @@
 class Solution {
     public int solution(int[] diffs, int[] times, long limit) {
-        int lo = 1, hi = getMaxDiff(diffs);
+        int lo = 1, hi = 100_000;
         while (lo < hi) {
             int mid = (lo + hi) / 2;
             
@@ -12,14 +12,6 @@ class Solution {
             }
         }
         return lo;
-    }
-    
-    private int getMaxDiff(int[] diffs) {
-        int max = 0;
-        for(int i = 0; i < diffs.length; i++) {
-            max = Math.max(max, diffs[i]);
-        }
-        return max;
     }
     
     private long calculateTotalTime(int[] diffs, int[] times, int level) {
