@@ -33,10 +33,7 @@ public class Main {
             }
 
             deque.offerLast(i);
-
-            while (!deque.isEmpty() && arr[deque.peekLast()] < arr[deque.peekFirst()]) {
-                deque.pollFirst();
-            }
+            
             answer[i] = arr[deque.peekFirst()];
         }
 
