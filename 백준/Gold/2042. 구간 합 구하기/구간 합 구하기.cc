@@ -26,7 +26,7 @@ ll update1(int start, int end, int node, int idx, ll val) {
 // Bottom Up 방식
 void construct() {
     for (int i = sz; i < sz + n; ++i) {
-        tree[i] = arr[i - sz + 1];
+        tree[i] = arr[i - sz];
     }
 
     for (int i = sz - 1; i > 0; --i) {
@@ -67,11 +67,11 @@ int main() {
         sz <<= 1;
     }
 
-    for (int i = 1; i <= n; ++i) {
+    for (int i = 0; i < n; ++i) {
         cin >> arr[i];
     }
 
-    init(1, n, 1);
+    init(0, n - 1, 1);
     // construct();
 
     int cnt = m + k;
