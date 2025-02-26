@@ -71,8 +71,8 @@ int main() {
         cin >> arr[i];
     }
 
-    init(0, n - 1, 1);
-    // construct();
+    // init(0, n - 1, 1);
+    construct();
 
     int cnt = m + k;
     int a, b;
@@ -80,9 +80,9 @@ int main() {
     while (cnt--) {
         cin >> a >> b >> c;
 
-        if (a == 1) update1(1, n, 1, b, c);
-        // if (a == 1) update2(b - 1, c);
-        if (a == 2) cout << sum(b, c, 1, 1, n) << '\n';
+        // if (a == 1) update1(1, n, 1, b, c);
+        if (a == 1) update2(b - 1, c);
+        if (a == 2) cout << sum(b - 1, c - 1, 1, 0, sz - 1) << '\n';
     }
 
     return 0;
