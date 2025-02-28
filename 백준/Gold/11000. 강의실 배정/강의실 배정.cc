@@ -1,51 +1,26 @@
-#include <iostream>
+#include <cstdio>
+#include <utility>
+#include <set>
 #include <algorithm>
-#include <queue>
-
 using namespace std;
+typedef pair<int, int> P;
 
-int n;
+int main(){
+	int N;
+	P p[200000];
+	scanf("%d", &N);
+	for(int i=0; i<N; i++){
+		int S, T;
+		scanf("%d %d", &S, &T);
+		p[i] = P(S, T);
+	}
+	sort(p, p+N);
 
-bool compare(pair<int,int> a, pair<int,int> b) {
-    if (a.second == b.second) return a.first > b.first;
-    return a.second > b.second;
-}
-
-int main() {
-    cin >> n;
-
-    vector< pair<int, int> > classes;
-    int s, e;
-    for (int i = 0; i < n; i++) {
-        cin >> s >> e;
-        classes.emplace_back(s, e);
-    }
-    sort(classes.begin(), classes.end(), compare);
-
-    priority_queue<int> pq;
-    int cnt = 0;
-    for (int i = 0; i < n; i++) {
-        pair<int,int> cur = classes[i];
-        int start = cur.first, end = cur.second;
-
-        if (pq.empty()) {
-            pq.push(start);
-            cnt++;
-        }
-        else {
-            int minStart = pq.top();
-            if (end <= minStart) {
-                pq.pop();
-                pq.push(start);
-            }
-            else {
-                pq.push(start);
-                cnt++;
-            }
-        }
-    }
-
-    cout << cnt;
-
-    return 0;
+	multiset<int> S;
+	for(int i=0; i<N; i++){
+		auto finder = S.lower_bound(-p[i].first);
+		if(finder != S.end()) S.erase(finder);
+		S.insert(-p[i].second);
+	}
+	printf("%d\n", S.size());
 }
