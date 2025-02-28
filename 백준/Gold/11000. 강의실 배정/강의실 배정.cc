@@ -7,8 +7,8 @@ using namespace std;
 int n;
 
 bool compare(pair<int,int> a, pair<int,int> b) {
-    if (a.first == b.first) return a.second < b.second;
-    return a.first < b.first;
+    if (a.second == b.second) return a.first > b.first;
+    return a.second > b.second;
 }
 
 int main() {
@@ -29,17 +29,17 @@ int main() {
         int start = cur.first, end = cur.second;
 
         if (pq.empty()) {
-            pq.push(-1 * end);
+            pq.push(start);
             cnt++;
         }
         else {
-            int minEnd = pq.top();
-            if (start >= -1 * minEnd) {
+            int minStart = pq.top();
+            if (end <= minStart) {
                 pq.pop();
-                pq.push(-1 * end);
+                pq.push(start);
             }
             else {
-                pq.push(-1 * end);
+                pq.push(start);
                 cnt++;
             }
         }
