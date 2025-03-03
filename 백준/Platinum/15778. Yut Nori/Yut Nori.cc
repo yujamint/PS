@@ -62,11 +62,12 @@ void move(char piece, int moveCnt) {
     if (pos == 5) pos = 25;
     // 뒷밭일 경우
     else if (pos == 10) pos = 35;
-    // 앞밭에서 출발해서 밭에 도착한 경우
-    else if (pos == 28) pos = 38;
 
     pos += moveCnt;
+    if (pos >= 31 && pos <= 35) pos = 15 + pos % 31;
     pos = pos == 28 ? 38 : pos;
+    pos = pos == 31 ? 15 : pos;
+    pos = pos == 41 ? 20 : pos;
 
     // 도착한 경우
     if ((pos > 20 && pos <= 25) || pos > 41)
@@ -79,6 +80,7 @@ void move(char piece, int moveCnt) {
             if ((isupper(piece) && isupper(board[pos][0])) || (islower(piece) && islower(board[pos][0]))) {
                 for (auto &p : prevPieces) board[pos].push_back(p);
             }
+            // 잡기 처리
             else {
                 for (auto &p : board[pos]) piecePosition[p] = 0;
                 board[pos] = prevPieces;
