@@ -1,23 +1,10 @@
 #include <iostream>
 #include <vector>
-#include <unordered_set>
 
 using namespace std;
 
 int n;
 vector<int> arr;
-unordered_set<int> answer;
-
-void check(int idx, const int &a, const int &b) {
-    int next = arr[idx] * a + b;
-
-    if (idx == n - 1) {
-        answer.insert(next);
-        return;
-    }
-
-    if (next == arr[idx + 1]) check(idx + 1, a, b);
-}
 
 int main() {
     cin >> n;
@@ -32,18 +19,26 @@ int main() {
         return 0;
     }
 
-    int first = arr[0];
-    for (int a = -500000; a <= 500000; ++a) {
-        if (answer.size() > 1) break;
-
-        int A = first * a;
-        int b = arr[1] - A;
-        check(0, a, b);
+    if (n == 2) {
+        if (arr[0] == arr[1]) cout << arr[0];
+        else cout << 'A';
+        return 0;
     }
 
-    if (answer.size() > 1) cout << 'A';
-    else if (answer.empty()) cout << 'B';
-    else cout << *answer.begin();
+    int a = 0;
+    if (arr[0] != arr[1]) a = (arr[2] - arr[1]) / (arr[1] - arr[0]);
+    int b = arr[1] - arr[0] * a;
+
+    bool flag = true;
+    for (int i = 0; i < n - 1; ++i) {
+        int next = arr[i] * a + b;
+        if (next != arr[i + 1]) {
+            cout << 'B';
+            return 0;
+        }
+    }
+
+    cout << arr[n - 1] * a + b;
 
     return 0;
 }
